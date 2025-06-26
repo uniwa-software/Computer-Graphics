@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Κάμερα και Κύβος</title>
+    <title>Γραφικά Υπολογιστών - Βήματα 1-6</title>
     <script src="gl-matrix-min.js"></script>
     <script src="webgl-debug.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -97,55 +97,55 @@ void main(void) {
         }
 
         function initBuffers() {
-            // Ορισμός των vertices για έναν κύβο μοναδιαίων διαστάσεων
+            // Κύβος vertices για το ρομπότ
             const vertices = new Float32Array([
                 // Μπροστινή όψη
-                -0.5, -0.5,  0.5, 1,
-                 0.5, -0.5,  0.5, 1,
-                 0.5,  0.5,  0.5, 1,
-                -0.5, -0.5,  0.5, 1,
-                 0.5,  0.5,  0.5, 1,
-                -0.5,  0.5,  0.5, 1,
+                -0.5, -0.5, 0.5, 1,
+                0.5, -0.5, 0.5, 1,
+                0.5, 0.5, 0.5, 1,
+                -0.5, -0.5, 0.5, 1,
+                0.5, 0.5, 0.5, 1,
+                -0.5, 0.5, 0.5, 1,
 
                 // Πίσω όψη
                 -0.5, -0.5, -0.5, 1,
-                -0.5,  0.5, -0.5, 1,
-                 0.5,  0.5, -0.5, 1,
+                -0.5, 0.5, -0.5, 1,
+                0.5, 0.5, -0.5, 1,
                 -0.5, -0.5, -0.5, 1,
-                 0.5,  0.5, -0.5, 1,
-                 0.5, -0.5, -0.5, 1,
+                0.5, 0.5, -0.5, 1,
+                0.5, -0.5, -0.5, 1,
 
                 // Πάνω όψη
-                -0.5,  0.5, -0.5, 1,
-                -0.5,  0.5,  0.5, 1,
-                 0.5,  0.5,  0.5, 1,
-                -0.5,  0.5, -0.5, 1,
-                 0.5,  0.5,  0.5, 1,
-                 0.5,  0.5, -0.5, 1,
+                -0.5, 0.5, -0.5, 1,
+                -0.5, 0.5, 0.5, 1,
+                0.5, 0.5, 0.5, 1,
+                -0.5, 0.5, -0.5, 1,
+                0.5, 0.5, 0.5, 1,
+                0.5, 0.5, -0.5, 1,
 
                 // Κάτω όψη
                 -0.5, -0.5, -0.5, 1,
-                 0.5, -0.5, -0.5, 1,
-                 0.5, -0.5,  0.5, 1,
+                0.5, -0.5, -0.5, 1,
+                0.5, -0.5, 0.5, 1,
                 -0.5, -0.5, -0.5, 1,
-                 0.5, -0.5,  0.5, 1,
-                -0.5, -0.5,  0.5, 1,
+                0.5, -0.5, 0.5, 1,
+                -0.5, -0.5, 0.5, 1,
 
                 // Δεξιά όψη
-                 0.5, -0.5, -0.5, 1,
-                 0.5,  0.5, -0.5, 1,
-                 0.5,  0.5,  0.5, 1,
-                 0.5, -0.5, -0.5, 1,
-                 0.5,  0.5,  0.5, 1,
-                 0.5, -0.5,  0.5, 1,
+                0.5, -0.5, -0.5, 1,
+                0.5, 0.5, -0.5, 1,
+                0.5, 0.5, 0.5, 1,
+                0.5, -0.5, -0.5, 1,
+                0.5, 0.5, 0.5, 1,
+                0.5, -0.5, 0.5, 1,
 
                 // Αριστερή όψη
                 -0.5, -0.5, -0.5, 1,
-                -0.5, -0.5,  0.5, 1,
-                -0.5,  0.5,  0.5, 1,
+                -0.5, -0.5, 0.5, 1,
+                -0.5, 0.5, 0.5, 1,
                 -0.5, -0.5, -0.5, 1,
-                -0.5,  0.5,  0.5, 1,
-                -0.5,  0.5, -0.5, 1,
+                -0.5, 0.5, 0.5, 1,
+                -0.5, 0.5, -0.5, 1,
             ]);
 
             vertexBuffer = gl.createBuffer();
@@ -158,7 +158,7 @@ void main(void) {
         function drawCube(color, sx, sy, sz, tx, ty, tz, finalMatrix) {
             // Δημιουργία χρωμάτων για τον κύβο
             const colors = new Float32Array(Array(36).fill(color).flat());
-            
+
             // Ενημέρωση του color buffer
             gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
@@ -175,7 +175,7 @@ void main(void) {
 
             const fullMatrix = glMatrix.mat4.create();
             glMatrix.mat4.multiply(fullMatrix, finalMatrix, model);
-            
+
             // Σχεδίαση
             gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
             gl.vertexAttribPointer(vertexPositionAttributePointer, 4, gl.FLOAT, false, 0, 0);
@@ -185,7 +185,7 @@ void main(void) {
 
         function getCameraPosition() {
             const dist = parseFloat(document.getElementById("camOrthoDistance").value);
-            
+
             if (!isAnimating) {
                 const selected = document.querySelector("input[name='camPos']:checked");
                 const map = {
@@ -252,7 +252,8 @@ void main(void) {
             const zFar = camDistance * 10;
             glMatrix.mat4.perspective(projectionMatrix, fov, 1, 0.001, zFar);
             glMatrix.mat4.multiply(finalMatrix, projectionMatrix, viewMatrix);
-
+            
+            // Χρώματα ρομπότ
             const darkRed = [0.6, 0.0, 0.0, 1];
             const yellow = [1.0, 0.8, 0.0, 1];
 
